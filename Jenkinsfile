@@ -71,17 +71,17 @@ pipeline {
         }
 
 
-    // Clean up local Jenkins server storage after build
-    post {
-        always {
-            sh "docker system prune -f"
-        }
-        success {
-            echo "Pipeline Success!"
-        }
-        failure {
-            echo "Pipeline Failed! Please check the logs."
+        // Clean up local Jenkins server storage after build
+        post {
+            always {
+                sh "docker system prune -f"
+            }
+            success {
+                echo "Pipeline Success!"
+            }
+            failure {
+                echo "Pipeline Failed! Please check the logs."
+            }
         }
     }
-}
 }
