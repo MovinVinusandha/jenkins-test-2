@@ -11,7 +11,7 @@ pipeline {
         // ===================================================================================
         // FLOW 1: THE PR GATEKEEPER (Runs when a PR is opened against 'staging')
         // ===================================================================================
-        stage('PR: Run Unit & Integration Tests for Frontend') {
+        stage('Run Unit Tests for Frontend') {
             agent {
                 docker {
                     image 'node:20-alpine'
@@ -24,13 +24,11 @@ pipeline {
             // }
             steps {
                 echo "2. Running Frontend Tests (Vitest + JSDOM)..."
-                dir('frontend') {
-                    sh '''
-                        npm ci
-                        npm install --no-save @vitest/coverage-v8
-                        npx vitest run --coverage.enabled=true --coverage.reporter=lcov --coverage.reportsDirectory=./coverage
-                    '''
-                }
+                sh '''
+                    npm ci
+                    npm install --no-save @vitest/coverage-v8
+                    npx vitest run --coverage.enabled=true --coverage.reporter=lcov --coverage.reportsDirectory=./coverage
+                '''
             }
         }
 
@@ -53,20 +51,18 @@ pipeline {
                 SONAR_HOST_URL = credentials('SONARQUBE_HOST_URL')
             }
             steps {
-                dir('frontend') {
-                    sh '''
-                        sonar-scanner \
-                            -Dsonar.host.url=${SONAR_HOST_URL} \
-                            -Dsonar.login=${SONAR_TOKEN} \
-                            -Dsonar.projectKey="trim-frontend" \
-                            -Dsonar.projectName="Trim Frontend" \
-                            -Dsonar.sources=src \
-                            -Dsonar.tests=src \
-                            -Dsonar.test.inclusions="**/*.test.tsx,**/*.test.ts,**/*.spec.tsx,**/*.spec.ts" \
-                            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-                            -Dsonar.qualitygate.wait=true
-                    '''
-                }
+                sh '''
+                    sonar-scanner \
+                        -Dsonar.host.url=${SONAR_HOST_URL} \
+                        -Dsonar.login=${SONAR_TOKEN} \
+                        -Dsonar.projectKey="trim-frontend" \
+                        -Dsonar.projectName="Trim Frontend" \
+                        -Dsonar.sources=src \
+                        -Dsonar.tests=src \
+                        -Dsonar.test.inclusions="**/*.test.tsx,**/*.test.ts,**/*.spec.tsx,**/*.spec.ts" \
+                        -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                        -Dsonar.qualitygate.wait=true
+                '''
             }
         }
     }
