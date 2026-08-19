@@ -60,7 +60,7 @@ pipeline {
                         -Dsonar.sources=src \
                         -Dsonar.tests=src \
                         -Dsonar.test.inclusions="**/*.test.tsx,**/*.test.ts,**/*.spec.tsx,**/*.spec.ts" \
-                        -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+                        -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
                         -Dsonar.qualitygate.wait=true
                 '''
             }
