@@ -23,7 +23,7 @@ pipeline {
             //     changeRequest(target: 'sandbox-staging') 
             // }
             steps {
-                echo "2. Running Frontend Tests (Vitest + JSDOM)..."
+                echo "2. Running Frontend Tests (Vitest + Happy DOM)..."
                 sh '''
                     npm ci
                     npm install --no-save @vitest/coverage-v8
