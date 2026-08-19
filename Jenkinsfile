@@ -7,7 +7,6 @@ pipeline {
                 checkout scm
             }
         }
-    }
 
         // ===================================================================================
         // FLOW 1: THE PR GATEKEEPER (Runs when a PR is opened against 'staging')
@@ -84,4 +83,5 @@ pipeline {
             echo "Pipeline Failed! Please check the logs."
         }
     }
+}
 }
